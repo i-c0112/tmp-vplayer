@@ -1,0 +1,11 @@
+.positioned {
+	position: relative;
+}
+
+#caption_0 {
+	top: 1em;
+}
+
+#caption_0.active-cue {
+	color: #dfea1d;
+}
