@@ -336,7 +336,6 @@ var trackList = function (plugin) {
     active: function (tracks) {
       tracks.forEach(function (track) {
         if (track.mode === "showing" || track.mode === "hidden") {
-          console.log(track.mode);
           activeTrack = track;
           return track;
         }
@@ -409,8 +408,6 @@ var widget = function (plugin) {
     var fragment = document.createDocumentFragment();
     var createTranscript = function () {
       var cues = track.cues;
-      console.log('track', track);
-      console.log('cuecue', track.cues);
       for (i = 0; i < cues.length; i++) {
         line = createLine(cues[i]);
         fragment.appendChild(line);
@@ -421,16 +418,12 @@ var widget = function (plugin) {
     };
     // bug: TextTrack object doesn't seem to have readyState property.
     //  But HTMLTrackElement has the readyState read-only property.
-    createTranscript();
-
-    // if (track.readyState !==2) {
-    //   console.log('not ready');
-    //   plugin.player.load();
-    //   plugin.player.on('loaded', createTranscript);
-    // } else {
-    //   console.log('ready');
-    //   createTranscript();
-    // }
+    var htmltrack = document.getElementById(track.id);
+    if (htmltrack.readyState !==2) {
+      htmltrack.addEventListener('load', createTranscript, false);
+    } else {
+      createTranscript();
+    }
     body.scroll = scroller(body);
     body.addEventListener('click', clickToSeekHandler);
     return body;

@@ -1,18 +1,18 @@
-'use strict';
 var jq = jQuery.noConflict();
 jq(function() {
+  'use strict';
   var player = videojs('really-cool-video').ready(function() {
     console.log('Good to go!');
     var p = this;
     this.volume(0.25); // debug: need some music when coding
-    this.textTracks()[0].mode="hidden";
+    var track = this.textTracks()[0];
+    track.mode="hidden";
     // this.play(); // if you don't trust autoplay for some reason
 
     // How about an event listener?
     this.on('timeupdate', function() {
       try{
-        // throws exception if no textTracks nor activeCues
-        var cues = p.textTracks()[0].activeCues;
+        var cues = track.activeCues;
         if (cues && cues.length > 0) {
           var vtt = cues[0].text;
           if (vtt.substring(0,8)=="[George]"){
