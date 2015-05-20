@@ -1,11 +1,18 @@
+.video-js {
+  width: 40em !important;
+  height: 22.5em !important;
+}
 .positioned {
-	position: relative;
+  position: relative;
 }
-
 #caption_0 {
-	top: 1em;
+  top: 0em;
+  width: 40em;
 }
-
 #caption_0.active-cue {
-	color: #dfea1d;
+  color: #dfea1d;
+}
+#trans-container {
+  position: absolute;
+  margin-left: 40em;
 }

@@ -39,7 +39,6 @@ jq(function() {
       showTitle: false,
       showTrackSelector: false
     });
-    console.log(vjs_transcript.el());
     jq('#transcription').get(0).appendChild(vjs_transcript.el());
   }catch(e){
     console.log(e);

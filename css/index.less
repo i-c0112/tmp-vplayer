@@ -1,0 +1,26 @@
+// Define video layout, 16:9
+@vwidth: 40em;
+@vheight: 22.5em;
+
+.video-js {
+	width: @vwidth !important;
+	height: @vheight !important;
+}
+
+.positioned {
+	position: relative;
+}
+
+#caption_0 {
+	top: 0em;
+	width: @vwidth;
+}
+
+#caption_0.active-cue {
+	color: #dfea1d;
+}
+
+#trans-container {
+	position: absolute;
+	margin-left: @vwidth;
+}
