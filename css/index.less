@@ -1,3 +1,12 @@
+body {
+	margin-bottom: 5%;
+}
+section {
+	position: static;
+	padding: 1em;
+	display: inline-block;
+}
+
 // Define video layout, 16:9
 @vwidth: 40em;
 @vheight: 22.5em;
@@ -5,22 +14,40 @@
 .video-js {
 	width: @vwidth !important;
 	height: @vheight !important;
+	display: block;
 }
 
 .positioned {
 	position: relative;
+	display: block;
+	width: @vwidth;
+	height: @vheight/2;
 }
 
 #caption-0 {
-	top: 0em;
+	margin-top: 0;
+	top: 0;
 	width: @vwidth;
+	height: inherit;
 }
 
 #caption-0.active-cue {
 	color: #dfea1d;
 }
 
+@bg-color: #ccc;
 #transcription {
-	position: absolute;
-	margin-left: @vwidth;
+	position: static;
+	display: block;
+	background-color: @bg-color;
+}
+
+#character-menu {
+	position: static;
+	display: block;
+	background-color: @bg-color;
+}
+
+#character-menu input {
+	display: list-item;
 }

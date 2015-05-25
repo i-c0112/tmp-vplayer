@@ -14,21 +14,27 @@
 </head>
 
 <body>
-<video id="really-cool-video" class="video-js vjs-default-skin" controls
- autoplay="true" preload="auto"
- data-setup='{}'>
-  <source src="http://undo.im/test/videojs/ST-1-48.webm" type='video/webm'>
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a web browser
-    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-  </p>
-  <track id="track-0" kind="captions" src="ST-1-48.vtt" srclang="en" label="English" default>
-</video>
-<div class="positioned vjs-default-skin vjs-has-started">
-  <p id="caption-0" class="vjs-control-bar">layout testing</p>
-</div>
-<div id="transcription"></div>
-<div id="character-menu"></div>
-
+<section>
+  <video id="really-cool-video" class="video-js vjs-default-skin" controls
+   autoplay="true" preload="auto"
+   data-setup='{}'>
+    <source src="ST-1-48.webm" type='video/webm'>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser
+      that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+    <track id="track-0" kind="captions" src="ST-1-48.vtt" srclang="en" label="English" default>
+  </video>
+  <div class="positioned vjs-default-skin vjs-has-started">
+    <p id="caption-0" class="vjs-control-bar">layout testing</p>
+  </div>
+</section>
+<section>
+  <div id="character-menu">
+    <input type="checkbox" id="Stuart">Stuart</input>
+    <input type="checkbox" id="George">George</input>
+  </div>
+  <div id="transcription"></div>
+</section>
 </body>
 </html>
