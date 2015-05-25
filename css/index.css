@@ -5,11 +5,11 @@
 .positioned {
   position: relative;
 }
-#caption_0 {
+#caption-0 {
   top: 0em;
   width: 40em;
 }
-#caption_0.active-cue {
+#caption-0.active-cue {
   color: #dfea1d;
 }
 #transcription {

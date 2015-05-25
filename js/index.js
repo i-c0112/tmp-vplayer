@@ -18,10 +18,10 @@ jq(function() {
           } else {
             p.muted(false);
           }
-          jq('#caption_0').html(vtt).addClass('active-cue');
+          jq('#caption-0').html(vtt).addClass('active-cue');
         }else{
           p.muted(false);
-          jq('#caption_0').html("").removeClass('active-cue');
+          jq('#caption-0').html("").removeClass('active-cue');
         }
       }catch(e){
         console.log('err',e);
