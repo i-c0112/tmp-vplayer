@@ -1,5 +1,6 @@
 /*! videojs-transcript - v0.7.1 - 2014-10-10
 * Copyright (c) 2014 Matthew Walsh; Licensed MIT */
+/*! This is a modified version by i-c0112. 2015-05-19 */
 (function (window, videojs) {
   'use strict';
 
