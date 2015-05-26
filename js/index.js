@@ -9,16 +9,18 @@ jq(function() {
     // How about an event listener?
     this.on('timeupdate', function() {
       try{
-        var cues = track.activeCues;
+        let cues = track.activeCues;
         if (cues && cues.length > 0) {
-          var vtt = cues[0].text;
-          if (vtt.substring(0,8)=="[George]"){
-            console.log('A talk!');
-            p.muted(true);
-          } else {
-            p.muted(false);
+          let vtts = '';
+          for (let i=0; i < cues.length; ++i) {
+            let cue = cues[i];
+            let vtt = cue.text;
+            vtts += '<br>' + vtt;
+            if (vtt.substring(0,8)=="[George]"){
+              p.muted(true);
+            }
           }
-          jq('#caption-0').html(vtt).addClass('active-cue');
+          jq('#caption-0').html(vtts).addClass('active-cue');
         }else{
           p.muted(false);
           jq('#caption-0').html("").removeClass('active-cue');
