@@ -12,6 +12,7 @@ jq(function(){
         let cues = track.activeCues;
         if (cues && cues.length > 0){
           let vtts = '';
+          let mute = false;
           for (let i=0; i < cues.length; ++i){
             let cue = cues[i];
             let vtt = cue.text;
@@ -25,10 +26,12 @@ jq(function(){
             let jq_el = jq('#mute-' + vtt.substring(1, end_index));
             if (jq_el.length === 0)
               throw "Character not found in checkbox!";
-            if (jq_el.attr("checked") == 'checked'){
-              p.muted(true);
+            // NOTE 'checked' attr is not sync with 'checked' property
+            if (jq_el[0].checked){
+              mute = true;
             }
           }
+          p.muted(mute);
           jq('#caption-0').html(vtts).addClass('active-cue');
         }else{
           p.muted(false);
