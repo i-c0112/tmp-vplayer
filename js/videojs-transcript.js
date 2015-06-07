@@ -369,7 +369,7 @@ var widget = function (plugin) {
       plugin.validTracks.forEach(function (track, i) {
       var option = document.createElement('option');
       option.value = i;
-      option.textContent = track.label() + ' (' + track.language() + ')';
+      option.textContent = track.label + ' (' + track.language + ')';
       selector.appendChild(option);
     });
     selector.addEventListener('change', function (e) {
