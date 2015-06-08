@@ -8,7 +8,8 @@ jq(function(){
     var p = this;
     track = this.textTracks()[0];
     track.mode="hidden";
-    this.textTracks()[1].mode="disabled";
+    // bugfix: "disabled" will NOT work. Instead, "hidden" works pretty well.
+    this.textTracks()[1].mode="hidden";
     this.volume(0.2);
 
     // How about an event listener?
@@ -62,7 +63,7 @@ jq(function(){
       // parse "option.text": "label" ("srclang")
       let label = this[this.selectedIndex].text.split(' ')[0];
       track = jq('track[label=' + label + ']').get(0).track;
-    })
+    });
   }catch(e){
     console.log(e);
   }

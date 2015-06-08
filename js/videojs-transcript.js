@@ -335,10 +335,12 @@ var trackList = function (plugin) {
       return validTracks;
     },
     active: function (tracks) {
-      tracks.forEach(function (track) {
+      // bugfix: "forEach" cannot be stopped so "some" or "every" should be used instead.
+      // i-c0112 (2015-06)
+      tracks.some(function (track) {
         if (track.mode === "showing" || track.mode === "hidden") {
           activeTrack = track;
-          return track;
+          return true;
         }
       });
       // fallback to first track
