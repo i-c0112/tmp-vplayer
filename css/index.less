@@ -24,16 +24,24 @@ section {
 	height: @vheight/2;
 }
 
-#caption-0 {
+.caption() {
 	margin-top: 0;
-	top: 0;
+	display: block;
 	width: @vwidth;
-	height: inherit;
-}
+	height: @vheight/2;
 
-#caption-0.active-cue {
-	color: #dfea1d;
+	&.active-cue {
+		color: #dfea1d;
+	}
 }
+.generate-captions(@count) when (@count > 0) {
+	@count-1: @count - 1;
+	#caption-@{count-1} {
+		.caption;
+	}
+	.generate-captions(@count - 1);
+}
+.generate-captions(2);
 
 @bg-color: #ccc;
 #transcription {

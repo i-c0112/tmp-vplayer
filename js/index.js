@@ -18,11 +18,17 @@ jq(function(){
         let cues = track.activeCues;
         if (cues && cues.length > 0){
           let vtts = '';
+          let vtts2 = "";
           let mute = false;
           for (let i=0; i < cues.length; ++i){
             let cue = cues[i];
             let vtt = cue.text;
-            vtts += '<br>' + vtt;
+            vtts += "<br>\n" + vtt;
+
+            // NOTE cue.id starts with value 1
+            vtts2 += "<br>\n" +
+             p.textTracks()[track.language === "en"? 1: 0]
+              .cues[cue.id - 1].text;
 
             // In vtt: '[' + character_name + ']'
             // checkbox id: 'mute-' + character_name
@@ -42,9 +48,10 @@ jq(function(){
           }
           p.muted(mute);
           jq('#caption-0').html(vtts).addClass('active-cue');
+          jq('#caption-1').html(vtts2).addClass('active-cue');
         }else{
           p.muted(false);
-          jq('#caption-0').html("").removeClass('active-cue');
+          jq('#caption-0, #caption-1').html("").removeClass('active-cue');
         }
       }catch(e){
         console.log('err',e);

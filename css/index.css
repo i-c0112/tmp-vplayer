@@ -17,11 +17,20 @@ section {
   width: 40em;
   height: 11.25em;
 }
+#caption-1 {
+  margin-top: 0;
+  display: block;
+  width: 40em;
+  height: 11.25em;
+}
+#caption-1.active-cue {
+  color: #dfea1d;
+}
 #caption-0 {
   margin-top: 0;
-  top: 0;
+  display: block;
   width: 40em;
-  height: inherit;
+  height: 11.25em;
 }
 #caption-0.active-cue {
   color: #dfea1d;
