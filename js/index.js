@@ -2,9 +2,6 @@ var jq = jQuery.noConflict();
 jq(function(){
   'use strict';
   var track;
-  jq('#transcript-selector').on("change", function(event) {
-    
-  });
 
   // setup video
   var player = videojs('really-cool-video').ready(function(){
@@ -60,6 +57,12 @@ jq(function(){
       showTitle: false
     });
     jq('#transcription').get(0).appendChild(vjs_transcript.el());
+    // sync transcript-selector and texttrack view
+    jq('.transcript-selector').on('change', function(e) {
+      // parse "option.text": "label" ("srclang")
+      let label = this[this.selectedIndex].text.split(' ')[0];
+      track = jq('track[label=' + label + ']').get(0).track;
+    })
   }catch(e){
     console.log(e);
   }
