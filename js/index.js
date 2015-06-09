@@ -20,6 +20,7 @@ jq(function(){
           let vtts = '';
           let vtts2 = "";
           let mute = false;
+          let count = 3 - cues.length;
           for (let i=0; i < cues.length; ++i){
             let cue = cues[i];
             let vtt = cue.text;
@@ -27,8 +28,8 @@ jq(function(){
 
             // NOTE cue.id starts with value 1
             vtts2 += "<br>\n" +
-             p.textTracks()[track.language === "en"? 1: 0]
-              .cues[cue.id - 1].text;
+              p.textTracks()[track.language === "en"? 1: 0]
+              .cues.getCueById(cue.id).text;
 
             // In vtt: '[' + character_name + ']'
             // checkbox id: 'mute-' + character_name
@@ -46,12 +47,26 @@ jq(function(){
               mute = true;
             }
           }
+          // diplay preview of inactive cue(s)
+          let preview = "";
+          let preview2 = "";
+          for(let iIt = 0; iIt < count; ++iIt) {
+            let iCueId = Number(cues[cues.length - 1].id) + iIt + 1;
+            preview += "<br>\n" +
+              track.cues.getCueById(iCueId).text;
+            preview2 += "<br>\n" +
+              p.textTracks()[track.language === "en"? 1: 0].
+              cues.getCueById(iCueId).text;
+          }
+
           p.muted(mute);
           jq('#caption-0').html(vtts).addClass('active-cue');
+          jq('#preview-0').html(preview);
           jq('#caption-1').html(vtts2).addClass('active-cue');
+          jq('#preview-1').html(preview2);
         }else{
           p.muted(false);
-          jq('#caption-0, #caption-1').html("").removeClass('active-cue');
+          jq('#caption-0, #caption-1').removeClass('active-cue');
         }
       }catch(e){
         console.log('err',e);
