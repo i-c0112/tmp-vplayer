@@ -1,7 +1,59 @@
-var jq = jQuery.noConflict();
-jq(function(){
+var jq = jQuery;jq(function(){
   'use strict';
-  var track;
+  var track; // current selected track
+  var currentCueId = [0, 0];
+  var parseTrack = function (track) {
+    let ret = [];
+    let cues = track.cues;
+    for (let i = 0; i < cues.length; ++i) {
+      let s = cues[i].text;
+      let pos = -1;
+      while (true) {
+        pos = s.indexOf('[', pos + 1);
+        if (pos === -1) {
+          break;
+        }
+        let leftpos = pos;
+        pos = s.indexOf(']', leftpos);
+        if (pos === -1) {
+          throw "Failed to parse the track!";
+        }
+        let character = s.substring(leftpos + 1, pos);
+        if (ret.indexOf(character) === -1) {
+          ret.push(character);
+        }
+      }
+    }
+    return ret;
+  };
+  var getTrackNum = function(track_) {
+    if (typeof track_.language == "undefined") {
+      throw new TypeError(track_ + ' has no property language');
+    }
+    return track_.language === "en" ? 0 : 1;
+  };
+  var getTrackDisplayText = function(track_) {
+    let ret = {
+      caption: false,
+      preview: ""
+    };
+    let length = 0;
+    if (track_.activeCues && (length = track_.activeCues.length) > 0) {
+      ret.caption = "";
+      for (let i = 0; i < length; ++i) {
+        ret.caption += "<br>\n" + track_.activeCues[i].text;
+        currentCueId[getTrackNum(track_)] = Number(track_.activeCues[i].id);
+      }
+    }
+    for (let i = 0; i < 3 - length; ++i) {
+      let cue = track_.cues.getCueById(currentCueId[getTrackNum(track_)] + i + 1);
+      if (!cue) {
+        break;
+      }
+      ret.preview += "<br>\n" + cue.text;
+    }
+    return ret;
+  };
 
   // setup video
   var player = videojs('really-cool-video').ready(function(){
@@ -11,62 +63,29 @@ jq(function(){
     // bugfix: "disabled" will NOT work. Instead, "hidden" works pretty well.
     this.textTracks()[1].mode="hidden";
     this.volume(0.2);
-
+    let characters = [];
+    $('#track-en').load(function() {
+      characters = parseTrack(this.track);
+      console.log(characters);
+    });
     // How about an event listener?
     this.on('timeupdate', function(){
       try{
-        let cues = track.activeCues;
-        if (cues && cues.length > 0){
-          let vtts = '';
-          let vtts2 = "";
-          let mute = false;
-          let count = 3 - cues.length;
-          for (let i=0; i < cues.length; ++i){
-            let cue = cues[i];
-            let vtt = cue.text;
-            vtts += "<br>\n" + vtt;
-
-            // NOTE cue.id starts with value 1
-            vtts2 += "<br>\n" +
-              p.textTracks()[track.language === "en"? 1: 0]
-              .cues.getCueById(cue.id).text;
-
-            // In vtt: '[' + character_name + ']'
-            // checkbox id: 'mute-' + character_name
-            let end_index = vtt.indexOf(']');
-            if (end_index === -1){
-              throw "Failed to parse vtt file!";
-            }
-            let jq_el = jq('#mute-' + vtt.substring(1, end_index));
-            if (jq_el.length === 0){
-              throw "Character not found in checkbox!";
-            }
-            // NOTE 'checked' attr is not sync with 'checked' property
-            // using jq.prop() instead of jq.attr()
-            if (jq_el[0].checked){
-              mute = true;
-            }
-          }
-          // diplay preview of inactive cue(s)
-          let preview = "";
-          let preview2 = "";
-          for(let iIt = 0; iIt < count; ++iIt) {
-            let iCueId = Number(cues[cues.length - 1].id) + iIt + 1;
-            preview += "<br>\n" +
-              track.cues.getCueById(iCueId).text;
-            preview2 += "<br>\n" +
-              p.textTracks()[track.language === "en"? 1: 0].
-              cues.getCueById(iCueId).text;
+        let mute = false;
+        for (let idx = 0; idx < 2; ++idx) {
+          let trackIter = p.textTracks()[idx];
+          if (typeof trackIter == "undefined") {
+            throw new TypeError(trackIter + ' is undefined');
           }
 
-          p.muted(mute);
-          jq('#caption-0').html(vtts).addClass('active-cue');
-          jq('#preview-0').html(preview);
-          jq('#caption-1').html(vtts2).addClass('active-cue');
-          jq('#preview-1').html(preview2);
-        }else{
-          p.muted(false);
-          jq('#caption-0, #caption-1').removeClass('active-cue');
+          let textToDisplay = getTrackDisplayText(trackIter);
+          let captionJq = jq('#caption-' + getTrackNum(trackIter));
+          if (textToDisplay.caption) {
+            captionJq.html(textToDisplay.caption).addClass('active-cue');
+          } else {
+            captionJq.html("").removeClass('active-cue');
+          }
+          jq('#preview-' + getTrackNum(trackIter)).html(textToDisplay.preview);
         }
       }catch(e){
         console.log('err',e);
@@ -77,8 +96,8 @@ jq(function(){
   // plugin: videojs-transcript
   try {
     let vjs_transcript = player.transcript({
-      showTitle: false
-    });
+      showTitle: false,
+      showTrackSelector: false    });
     jq('#transcription').get(0).appendChild(vjs_transcript.el());
     // sync transcript-selector and texttrack view
     jq('.transcript-selector').on('change', function(e) {

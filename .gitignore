@@ -1,4 +1,6 @@
 *.vtt
-.settings/
-.project
 *.webm
+*.mp4
+.*
+node_modules/
+img/

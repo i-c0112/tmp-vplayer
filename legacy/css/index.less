@@ -1,0 +1,61 @@
+body {
+	margin-bottom: 5%;
+}
+section {
+	position: static;
+	padding: 1em;
+	display: inline-block;
+}
+
+// Define video layout, 16:9
+@vwidth: 40em;
+@vheight: 22.5em;
+
+.video-js {
+	width: @vwidth !important;
+	height: @vheight !important;
+	display: block;
+}
+
+.positioned {
+	position: relative;
+	display: block;
+	width: @vwidth;
+	height: @vheight/2;
+}
+
+.caption() {
+	margin-top: 0;
+	display: block;
+	width: @vwidth;
+	height: @vheight/2;
+
+	&.active-cue {
+		color: #dfea1d;
+	}
+}
+.generate-captions(@count) when (@count > 0) {
+	@count-1: @count - 1;
+	#caption-@{count-1} {
+		.caption;
+	}
+	.generate-captions(@count - 1);
+}
+.generate-captions(2);
+
+@bg-color: #ccc;
+#transcription {
+	position: static;
+	display: block;
+	background-color: @bg-color;
+}
+
+#character-menu {
+	position: static;
+	display: block;
+	background-color: @bg-color;
+}
+
+#character-menu input {
+	display: list-item;
+}

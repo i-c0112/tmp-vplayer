@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+
+<link href="css/normalize.css" rel="stylesheet">
+<link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="css/videojs-transcript.css" rel="stylesheet">
+
+<script src="//vjs.zencdn.net/4.12/video.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/videojs-transcript.js"></script>
+<script src="js/index.js"></script>
+</head>
+
+<body>
+<section>
+  <video id="really-cool-video" class="video-js vjs-default-skin" controls
+   autoplay="true" preload="auto"
+   data-setup='{}'>
+    <source src="ST-1-48.webm" type='video/webm'>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser
+      that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+    <track id="track-en" kind="captions" src="ST-1-48.vtt" srclang="en" label="English" default>
+    <track id="track-zh" kind="captions" src="test.vtt" srclang="zh" label="Dummy">
+  </video>
+  <div class="positioned vjs-default-skin vjs-has-started">
+    <p id="caption-0" class="vjs-control-bar">layout testing</p>
+    <p id="preview-0" class="caption-preview"></p>
+  </div>
+  <div class="positioned vjs-default-skin vjs-has-started">
+    <p id="caption-1" class="vjs-control-bar">layout testing</p>
+    <p id="preview-1" class="caption-preview"></p>
+  </div>
+</section>
+<section>
+  <div id="character-menu">
+    <!-- dynamic generated checkboxes -->
+    <input type="checkbox" id="mute-Stuart">Stuart</input>
+    <input type="checkbox" id="mute-George">George</input>
+  </div>
+  <div id="transcription"></div>
+</section>
+</body>
+</html>
