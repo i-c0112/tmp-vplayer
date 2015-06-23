@@ -1,10 +1,15 @@
-'use strict';var jq = jQuery;jq(function(){  var track; // current selected track
+'use strict';if (!String.prototype.includes) {  String.prototype.includes = function() {'use strict';    return String.prototype.indexOf.apply(this, arguments) !== -1;  };}var jq = jQuery;jq(function(){  var track; // current selected track
   var utils = function() {
     var currentCueId = [0, 0];
     return {
-      parseTrack : function (track) {
+      parseTrack : function (track, active) {
         let ret = [];
-        let cues = track.cues;
+        let cues = undefined;
+        if (typeof active === "undefined" || typeof active === "null" || !active) {
+          cues = track.cues;
+        } else {
+          cues = track.activeCues;
+        }
         for (let i = 0; i < cues.length; ++i) {
           let s = cues[i].text;
           let pos = -1;
@@ -57,6 +62,16 @@
     };
   }();
 
+  // Demo Use Only
+  var _characterMap = ["George", "Mrs. Eleanor", "Mr. Frederick", "Stuart", "Snowbell"];
+  var _characterList = {"George":false, "Mrs. Eleanor":false, "Mr. Frederick":false, "Stuart":false, "Snowbell":false};
+  var rolePanelLi = jq('#rolePanel li').each(function(index, elem) {
+    this.addEventListener('click', function(event) {
+      let val_ = _characterList[_characterMap[index]];
+      _characterList[_characterMap[index]] = !val_;
+    }, false);
+  });
+
   // setup video
   var player = videojs('really-cool-video').ready(function(){
     var p = this;
@@ -73,7 +88,17 @@
     // How about an event listener?
     this.on('timeupdate', function(){
       try{
+        let activeCharacter = utils.parseTrack(track, true);
         let mute = false;
+        activeCharacter.forEach(function(elem, index) {
+          _characterMap.forEach(function(elem2, index2) {
+            if (elem.toLowerCase().includes(elem2.toLowerCase())) {
+              mute |= _characterList[elem2];
+            }
+          });
+        });
+        p.muted(mute);
+
         for (let idx = 0; idx < 2; ++idx) {
           let trackIter = p.textTracks()[idx];
           if (typeof trackIter == "undefined") {
