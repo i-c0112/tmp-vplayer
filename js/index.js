@@ -46,7 +46,7 @@
         if (track_.activeCues && (length = track_.activeCues.length) > 0) {
           ret.caption = "";
           for (let i = 0; i < length; ++i) {
-            ret.caption += "<br>\n" + track_.activeCues[i].text;
+            ret.caption += "<br>\n" + utils.trimCharacterName(track_.activeCues[i].text);
             currentCueId[utils.getTrackNum(track_)] = Number(track_.activeCues[i].id);
           }
         }
@@ -55,9 +55,15 @@
           if (!cue) {
             break;
           }
-          ret.preview += "<br>\n" + cue.text;
+          ret.preview += "<br>\n" + utils.trimCharacterName(cue.text);
         }
         return ret;
+      },
+      trimCharacterName : function(str) {
+        if (typeof str != "string") {
+          throw new TypeError(str + " is not a String!");
+        }
+        return str.replace(/\[.*\]:.?/g, '');
       }
     };
   }();
@@ -83,7 +89,6 @@
     let characters = [];
     $('#track-en').load(function() {
       characters = utils.parseTrack(this.track);
-      console.log(characters);
     });
     // How about an event listener?
     this.on('timeupdate', function(){
