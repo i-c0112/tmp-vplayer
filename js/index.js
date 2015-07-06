@@ -109,8 +109,6 @@
           let captionJq = jq('#caption-' + utils.getTrackNum(trackIter));
           if (textToDisplay.caption) {
             captionJq.html(textToDisplay.caption).addClass('active-cue');
-          } else {
-            captionJq.html("").removeClass('active-cue');
           }
           jq('#preview-' + utils.getTrackNum(trackIter)).html(textToDisplay.preview);
         }
