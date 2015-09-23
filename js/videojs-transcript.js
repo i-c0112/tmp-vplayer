@@ -258,7 +258,8 @@ var scrollerProto = function(plugin) {
       var time = now - startTime;
       self.isAutoScrolling = true;
       element.scrollTop = easeOut(time, startPos, change, duration);
-      if (element.scrollTop !== newPos) {
+      var tmp = element.scrollTop - newPos;
+      if (tmp > 0.5 || tmp < -0.5) {
         requestAnimationFrame(updateScroll, element);
       }
     };
