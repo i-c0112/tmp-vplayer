@@ -1,4 +1,13 @@
-'use strict';if (!String.prototype.includes) {  String.prototype.includes = function() {'use strict';    return String.prototype.indexOf.apply(this, arguments) !== -1;  };}var jq = jQuery;jq(function(){  var track; // current selected track
+'use strict';
+if (!String.prototype.includes) {
+  String.prototype.includes = function() {'use strict';
+    return String.prototype.indexOf.apply(this, arguments) !== -1;
+  };
+}
+
+var jq = jQuery;
+jq(function(){
+  var track; // current selected track
   var utils = function() {
     var currentCueId = [0, 0];
     return {
@@ -121,13 +130,16 @@
         console.log('err',e);
       }
     }); // on timeupdate
+
+    this.tracker({test: "Hello world!"});
   }); // videojs(...).ready(...)
 
   // plugin: videojs-transcript
   try {
     let vjs_transcript = player.transcript({
       showTitle: false,
-      showTrackSelector: false    });
+      showTrackSelector: false
+    });
     jq('#transcription').get(0).appendChild(vjs_transcript.el());
     // sync transcript-selector and texttrack view
     jq('.transcript-selector').on('change', function(e) {
