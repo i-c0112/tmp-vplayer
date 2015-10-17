@@ -1,7 +1,7 @@
 define(["jquery", "lib/videojs-transcript", "tracker"], function(jq) {
-'use strict';
+"use strict";
 if (!String.prototype.includes) {
-  String.prototype.includes = function() {'use strict';
+  String.prototype.includes = function() {"use strict";
     return String.prototype.indexOf.apply(this, arguments) !== -1;
   };
 }
@@ -130,6 +130,8 @@ jq(function(){
         console.log('err',e);
       }
     }); // on timeupdate
+
+    this.tracker({test: "Hello world!"});
   }); // videojs(...).ready(...)
 
   // plugin: videojs-transcript
