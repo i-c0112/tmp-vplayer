@@ -1,9 +1,9 @@
 /*! videojs-transcript - v0.7.1 - 2014-10-10
-* Copyright (c) 2014 Matthew Walsh; Licensed MIT */
-/*! This is a modified version by i-c0112. 2015-05-19 */
+* Copyright (c) 2014 Matthew Walsh; Licensed MIT
+* This is a modified version by i-c0112. 2015-05-19 */
+define([], function() {
+"use strict";
 (function (window, videojs) {
-  'use strict';
-
 
 // requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
 // MIT license
@@ -515,3 +515,4 @@ var transcript = function (options) {
 videojs.plugin('transcript', transcript);
 
 }(window, videojs));
+});
