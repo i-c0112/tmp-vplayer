@@ -1,9 +1,9 @@
 /*! videojs-transcript - v0.7.1 - 2014-10-10
-* Copyright (c) 2014 Matthew Walsh; Licensed MIT */
-/*! This is a modified version by i-c0112. 2015-05-19 */
+* Copyright (c) 2014 Matthew Walsh; Licensed MIT
+* This is a modified version by i-c0112. 2015-05-19 */
+define([], function() {
+"use strict";
 (function (window, videojs) {
-  'use strict';
-
 
 // requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
 // MIT license
@@ -258,7 +258,8 @@ var scrollerProto = function(plugin) {
       var time = now - startTime;
       self.isAutoScrolling = true;
       element.scrollTop = easeOut(time, startPos, change, duration);
-      if (element.scrollTop !== newPos) {
+      var tmp = element.scrollTop - newPos;
+      if (tmp > 0.5 || tmp < -0.5) {
         requestAnimationFrame(updateScroll, element);
       }
     };
@@ -514,3 +515,4 @@ var transcript = function (options) {
 videojs.plugin('transcript', transcript);
 
 }(window, videojs));
+});
