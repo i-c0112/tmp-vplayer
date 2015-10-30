@@ -1,6 +1,6 @@
 define([], function() {
 var config = {
-  regex: /[a-zA-z_\-]+/;
+  regex: /^[a-zA-z_\-]{5,}$/
 }
 function validate(s) {
   try{
@@ -9,5 +9,8 @@ function validate(s) {
     console.log(e);
     return false;
   }
+}
+return {
+  validate: validate
 }
 });
