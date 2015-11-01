@@ -4,22 +4,16 @@ var config = {
   serverUrl: "http://localhost/mplayer/vplayer-server/dummy.php",
 };
 function login(uname, upass, callback) {
-  var err = 0, accessToken = null, err = null;
   // TODO send request to authentication server
   if (!inputValidate.validate(uname)) {}
   if (!inputValidate.validate(upass)) {}
-  var data = {
+  var udata = {
     uname: "dummy",
     upass: "dummy"
   };
-  $.post(serverUrl, data, function(data, textStatus, jqXHR) {
-    err = data.err, accessToken = data.accessToken, errMsg = data.errMsg;
-    if (err > 0) {
-      callback(err, {
-        errMsg: errMsg
-      });
-    }
-  });
+  $.post(config.serverUrl, udata, function(sdata, textStatus, jqXHR) {
+    callback(sdata.err, sdata);
+  }, "json");
 }
 function host(accessToken, data) {
   // TODO open a websocket for incoming connection
@@ -27,6 +21,7 @@ function host(accessToken, data) {
   // close connection if accessToken rejected by server
   //
 }
+console.log("multimode.js loaded.");
 return {
   login: login,
   host: host

@@ -5,4 +5,4 @@ requirejs.config({
   }
 });
 
-requirejs(["index"]);
+requirejs(["es6/gen/index"]);

@@ -1,4 +1,4 @@
-define(["jquery", "lib/videojs-transcript", "tracker"], function(jq) {
+define(["jquery", "lib/videojs-transcript", "tracker", "multimode"], function(jq) {
 "use strict";
 if (!String.prototype.includes) {
   String.prototype.includes = function() {"use strict";
