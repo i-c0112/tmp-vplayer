@@ -1,7 +1,7 @@
 define(["jquery", "inputValidate"], function($, inputValidate) {
 "use strict";
 var config = {
-  serverUrl: "http://localhost/mplayer/vplayer-server/dummy.php",
+  serverUrl: "http://localhost/mplayer/tmp-vplayer/php/dummy.php",
 };
 function login(uname, upass, callback) {
   // TODO send request to authentication server
@@ -12,6 +12,9 @@ function login(uname, upass, callback) {
     upass: "dummy"
   };
   $.post(config.serverUrl, udata, function(sdata, textStatus, jqXHR) {
+    if (!sdata.err) {
+      sdata.err = 0;
+    }
     callback(sdata.err, sdata);
   }, "json");
 }
