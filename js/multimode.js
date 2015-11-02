@@ -12,6 +12,9 @@ function login(uname, upass, callback) {
     upass: "dummy"
   };
   $.post(config.serverUrl, udata, function(sdata, textStatus, jqXHR) {
+    if (!sdata.err) {
+      sdata.err = 0;
+    }
     callback(sdata.err, sdata);
   }, "json");
 }
