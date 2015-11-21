@@ -1,0 +1,27 @@
+{
+  "name": "tmp-vplayer",
+  "version": "0.1.0",
+  "description": "Video player with user interaction for lingual education use.",
+  "dependencies": {
+    "foundation": "^4.2.1",
+    "jquery": "^2.1.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.1.0",
+    "babel-preset-es2015": "^6.1.18"
+  },
+  "scripts": {
+    "prepublish": "babel ./js/es6/index.es6 -o ./js/es6/gen/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-c0112/tmp-vplayer.git"
+  },
+  "author": "i-c0112 <a7807118@gmail.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/i-c0112/tmp-vplayer/issues"
+  },
+  "homepage": "https://github.com/i-c0112/tmp-vplayer#readme"
+}
