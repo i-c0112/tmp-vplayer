@@ -1,23 +1,23 @@
 <?php
-require_once "output.php";
+include "autoload.php";
 
 class DbCon extends mysqli {
   public function __construct() {
     $file = @fopen(".dbcon.cfg", "r");
     if (!$file) {
-      err_json(1, "Failed mysqli connection! No configuration file is found!");
+      throw new Exception("No configuration file for db connection is found.");
     }
     $cfg = fgetcsv($file);
     parent::__construct($cfg[0], $cfg[1], $cfg[2], $cfg[3]);
 
     if ($this->connect_errno) {
-      err_json($this->connect_errno, $this->connect_error);
+      throw new DbConException($this->connect_error, $this->connect_errno);
     }
   }
 
   public function checkError() {
     if ($this->errno) {
-      err_json($this->errno, $this->error);
+      throw new DbConException($this->error, $this->errno);
     }
   }
 

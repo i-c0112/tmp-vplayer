@@ -1,26 +1,43 @@
 <?php
-header("Content-Type: application/json; charset=utf-8");
-require_once "DbCon.php";
-include_once("constant.php");
+include "autoload.php";
+include "constant.php";
 
-$dbcon = new DbCon();
-if (isset($_COOKIE["access"])) {
-  $qs = sprintf("UPDATE `user` SET status='%d',alive=TRUE WHERE access='${_COOKIE["access"]}'", USER_STATUS_ONLINE);
+function update_login_status($access) {
+  $dbcon = new DbCon();
+  $qs = sprintf("UPDATE `user` SET status='%d',alive=TRUE WHERE access='$access'", USER_STATUS_ONLINE);
   $dbcon->query($qs);
-  err_json(2, "cookie: ${_COOKIE["access"]}");
 }
 
-$result = $dbcon->query("SELECT * FROM `user` WHERE uname='admin'");
+function user_login() {
+  try {
+    // "@" to supress E_NOTICE message
+    $access = @$_COOKIE["access"];
+    $uname = $_POST["uname"];
+    $upass = $_POST["upass"];
+    $login = new Authorization($uname, $upass);
+    $result = null;
+    if ($access = $login->authorize($access)) {
+      # update login status
+      update_login_status($access);
+      $result = array("access"=>$access);
+    } else {
+      # authenticate login info
+      $access = $login->authenticate();
+      if ($access) {
+        update_login_status($access);
+        $result = array("access"=>$access);
+      } else {
+        $result = $erroutput->pute(1, "No matching login info is found.");
+      }
+    }
+    return $result;
+  } catch (UnexpectedValueException $uve) {
+    $erroutput = new ErrOutput(ErrOutput::JSON);
+    return $erroutput->pute(1, "Invalid input detected.");
+  }
+}
 
-$rand = bin2hex(openssl_random_pseudo_bytes(8));
-$fetch = $result->fetch_assoc();
-$rand .= $fetch["uname"];
-$rand = openssl_digest($rand, "sha1");
-$fetch["access"] = $rand;
-
-$qs = sprintf("UPDATE `user` SET access='$rand',status='%d',alive=TRUE WHERE uname='${fetch["uname"]}'", USER_STATUS_ONLINE);
-$dbcon->query($qs);
-// setting domain to "localhost" does NOT work. Why???
-setcookie("access", $rand, 0, "/mplayer/tmp-vplayer/");
-out_json($fetch);
+# EXTERNAL LOGIC START
+header("Content-Type: application/json; charset=utf-8");
+print json_encode(user_login());
 ?>

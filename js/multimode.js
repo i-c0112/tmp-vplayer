@@ -8,8 +8,8 @@ function login(uname, upass, callback) {
   if (!inputValidate.validate(uname)) {}
   if (!inputValidate.validate(upass)) {}
   var udata = {
-    uname: "dummy",
-    upass: "dummy"
+    uname: uname,
+    upass: upass
   };
   $.post(config.serverUrl, udata, function(sdata, textStatus, jqXHR) {
     if (!sdata.err) {
@@ -24,7 +24,6 @@ function host(accessToken, data) {
   // close connection if accessToken rejected by server
   //
 }
-console.log("multimode.js loaded.");
 return {
   login: login,
   host: host
